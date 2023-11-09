@@ -20,7 +20,7 @@ file(GLOB_RECURSE SOURCES src/*.cpp)
 
 add_library(omgui ${OMG_LIBRARY_TYPE} ${HEADERS} ${SOURCES})
 
-target_include_directories(omgui PUBLIC include)
+target_include_directories(omgui PRIVATE src)
 
 if (MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Wall /W3 /WX")
@@ -32,5 +32,3 @@ endif ()
 if(OMG_BUILD_EXAMPLES)
     add_subdirectory(examples)
 endif()
-
-file(COPY ${HEADERS} DESTINATION ${CMAKE_SOURCE_DIR}/include/omg)
