@@ -1,6 +1,6 @@
 link_libraries(omgui)
 add_executable(omgui_basic main.cpp)
-target_include_directories(omgui_basic PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../../include)
+target_include_directories(omgui_basic PRIVATE ../../src/)
 
 if(${OMG_BUILD_SHARED} STREQUAL "ON")
     if (MSVC)
