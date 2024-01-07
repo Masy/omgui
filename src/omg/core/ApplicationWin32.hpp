@@ -8,6 +8,7 @@
 #define NOMINMAX
 #endif /* not defined NOMINMAX */
 #include <Windows.h>
+#include <cstdint>
 #include "omg/core/AbstractApplication.hpp"
 
 namespace OMG {
@@ -45,6 +46,10 @@ namespace OMG {
 		 */
 		void stop() override;
 
+		[[nodiscard]] uint32_t eventMsgId() const;
+
+		[[nodiscard]] uint32_t threadId() const;
+
 	protected:
 
 		/**
@@ -57,6 +62,8 @@ namespace OMG {
 		 * @return The status code of the handled message.
 		 */
 		static LRESULT handleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+		[[nodiscard]] static uint32_t getModifierBitMask();
 
 	protected:
 

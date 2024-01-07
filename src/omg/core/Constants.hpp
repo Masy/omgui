@@ -35,13 +35,13 @@ namespace OMG {
 		 */
 		OMG_WINDOW_WINDOWED,
 		/**
+		 * State for when the window minimized (also sometimes known as iconized).
+		 */
+		OMG_WINDOW_MINIMIZED,
+		/**
 		 * State for when the window is maximized.
 		 */
 		OMG_WINDOW_MAXIMIZED,
-		/**
-		 * State for when the window minimized (also sometimes known as iconized).
-		 */
-		OMG_WINDOW_MINIMIZED
 	};
 
 	/**

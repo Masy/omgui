@@ -74,6 +74,28 @@ namespace OMG::Widgets {
 		 */
 		void setFocused(bool focused) override;
 
+		/**
+		 * Minimizes the window.
+		 */
+		void minimize() override;
+
+		/**
+		 * Maximizes the window.
+		 */
+		void maximize() override;
+
+		/**
+		 * Restores the window if it is minimized or maximized.
+		 */
+		void restore() override;
+
+		/**
+		 * Gets the winAPI handle of the window.
+		 *
+		 * @return The winAPI handle of the window.
+		 */
+		[[nodiscard]] HWND hwnd() const;
+
 	private:
 
 		/**

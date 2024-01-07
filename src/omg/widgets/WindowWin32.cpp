@@ -4,8 +4,7 @@
 
 #include <stdexcept>
 #include <string>
-#include "WindowWin32.hpp"
-#include "omg/core/AbstractApplication.hpp"
+#include "omg/widgets/WindowWin32.hpp"
 
 using namespace OMG::Widgets;
 
@@ -142,31 +141,25 @@ WindowWin32::WindowWin32(const std::wstring_view &title, const uint32_t style) :
 }
 
 void WindowWin32::setPosition(const int32_t posX, const int32_t posY) {
-	SetWindowPos(m_hwnd, nullptr, posX, posY, m_width, m_height, SWP_NOZORDER | SWP_NOSIZE);
+	RECT windowRect{};
+	GetWindowRect(m_hwnd, &windowRect);
+	MoveWindow(m_hwnd, windowRect.left + (posX - m_posX), windowRect.top + (posY - m_posY), m_width, m_height, false);
 }
 
 void WindowWin32::setSize(const int32_t width, const int32_t height) {
-	SetWindowPos(m_hwnd, nullptr, m_posX, m_posY, width, height, SWP_NOZORDER | SWP_NOMOVE);
+	RECT windowRect{};
+	GetWindowRect(m_hwnd, &windowRect);
+
+	MoveWindow(m_hwnd, windowRect.left, windowRect.bottom,
+			   (windowRect.right - windowRect.left) + (width - m_width),
+			   (windowRect.bottom - windowRect.top) + (height - m_height), true);
 }
 
 void WindowWin32::setVisible(const bool visible) {
 	if (m_visible == visible)
 		return;
 
-	m_visible = visible;
-	if (visible) {
-		auto flags = SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW;
-		auto zOder = HWND_TOP;
-		if (m_isPopup) {
-			flags |= SWP_NOACTIVATE;
-			zOder = HWND_TOPMOST;
-		}
-
-		SetWindowPos(m_hwnd, zOder, 0, 0, 0, 0, flags);
-		PostMessageW(m_hwnd, WM_SHOWWINDOW, TRUE, 0);
-	} else {
-		ShowWindow(m_hwnd, SW_HIDE);
-	}
+	ShowWindow(m_hwnd, visible ? SW_SHOW : SW_HIDE);
 }
 
 void WindowWin32::setEnabled(const bool enabled) {
@@ -181,4 +174,29 @@ void WindowWin32::setFocused(const bool focused) {
 		return;
 
 	SetFocus(focused ? m_hwnd : nullptr);
+}
+
+void WindowWin32::minimize() {
+	if (m_windowState == OMG_WINDOW_MINIMIZED)
+		return;
+
+	ShowWindow(m_hwnd, SW_MINIMIZE);
+}
+
+void WindowWin32::maximize() {
+	if (m_windowState == OMG_WINDOW_MAXIMIZED)
+		return;
+
+	ShowWindow(m_hwnd, SW_MAXIMIZE);
+}
+
+void WindowWin32::restore() {
+	if (m_windowState == OMG_WINDOW_WINDOWED)
+		return;
+
+	ShowWindow(m_hwnd, SW_RESTORE);
+}
+
+HWND WindowWin32::hwnd() const {
+	return m_hwnd;
 }

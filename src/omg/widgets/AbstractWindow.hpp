@@ -55,6 +55,35 @@ namespace OMG::Widgets {
 		 */
 		void addToRenderQueue() override;
 
+		/**
+		 * Gets the current content scale of the window.
+		 *
+		 * @return The current content scale of the window.
+		 */
+		[[nodiscard]] float contentScale() const;
+
+		/**
+		 * Checks if the window is a popup or not.
+		 *
+		 * @return Whether the window is a popup or not.
+		 */
+		[[nodiscard]] bool isPopup() const;
+
+		/**
+		 * Minimizes the window.
+		 */
+		virtual void minimize() = 0;
+
+		/**
+		 * Maximizes the window.
+		 */
+		virtual void maximize() = 0;
+
+		/**
+		 * Restores the window to the default state.
+		 */
+		virtual void restore() = 0;
+
 	protected:
 
 		/**
@@ -74,6 +103,10 @@ namespace OMG::Widgets {
 		 * The size of al widgets in the window should be multiplied by the content scale.
 		 */
 		float m_contentScale = 1.0f;
+		/**
+		 * The current state of the window.
+		 */
+		WindowState m_windowState = OMG_WINDOW_WINDOWED;
 
 	};
 
